@@ -1,0 +1,138 @@
+package WeeklyExercises.Week4;
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class LinkedListNode {
+    public int data;
+    public LinkedListNode next;
+
+    public LinkedListNode(int nodeData) {
+        this.data = nodeData;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    public LinkedListNode head;
+    public LinkedListNode tail;
+
+    public LinkedList() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    public void insertNode(int nodeData) {
+        LinkedListNode node = new LinkedListNode(nodeData);
+
+        if (this.head == null) {
+            this.head = node;
+        } else {
+            this.tail.next = node;
+        }
+
+        this.tail = node;
+    }
+}
+
+class LinkedListPrintHelper {
+    public static void printList(SinglyLinkedListNode node, String sep, BufferedWriter bufferedWriter) throws IOException {
+        while (node != null) {
+            bufferedWriter.write(String.valueOf(node.data));
+
+            node = node.next;
+
+            if (node != null) {
+                bufferedWriter.write(sep);
+            }
+        }
+    }
+}
+
+class Solution {
+
+    /*
+     * Complete the 'getNode' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER_SINGLY_LINKED_LIST llist
+     *  2. INTEGER positionFromTail
+     */
+
+    /*
+     * For your reference:
+     *
+     * SinglyLinkedListNode {
+     *     int data;
+     *     SinglyLinkedListNode next;
+     * }
+     *
+     */
+
+    public static int getNode(SinglyLinkedListNode llist, int positionFromTail) {
+        // Write your code here
+        SinglyLinkedListNode head = llist;
+        int count = 0;
+        while (head != null) {
+            count++;
+            head = head.next;
+        }
+
+        head = llist;
+
+        int target = count - positionFromTail-1;
+        for (int i = 0; i < target; i++) {
+            head = head.next;
+        }
+        return head.data;
+    }
+
+}
+
+public class LinkedList10 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int tests = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, tests).forEach(testsItr -> {
+            try {
+                SinglyLinkedList llist = new SinglyLinkedList();
+
+                int llistCount = Integer.parseInt(bufferedReader.readLine().trim());
+
+                IntStream.range(0, llistCount).forEach(i -> {
+                    try {
+                        int llistItem = Integer.parseInt(bufferedReader.readLine().trim());
+
+                        llist.insertNode(llistItem);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+
+                int position = Integer.parseInt(bufferedReader.readLine().trim());
+
+                int result = Solution.getNode(llist.head, position);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
