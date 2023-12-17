@@ -1,4 +1,4 @@
-package Bonus;
+package Bonus
 
 
 
@@ -18,7 +18,8 @@ public class Vebo1 {
         PriorityQueue<Integer> min = new PriorityQueue<>();
         for(int i = 0; i < n; i++) {
             int h = sc.nextInt();
-            if(!max.isEmpty() && h >= max.peek()) {
+            int med = max.isEmpty() ? 0: max.peek();
+            if(h > med) {
                 min.add(h);
             } else {
                 max.add(h);
@@ -33,25 +34,23 @@ public class Vebo1 {
             int e = sc.nextInt();
             if(e == 1) {
                 int h = sc.nextInt();
-                if(!max.isEmpty() && h >= max.peek()) {
+                int med = max.isEmpty() ? 0: max.peek();
+                if(h > med) {
                     min.add(h);
                 } else {
                     max.add(h);
-                }
-                if(max.size() - min.size() > 1) {
+                }  
+            }
+            if(e == 2) {
+                max.remove();
+            }
+            if(max.size() - min.size() > 1) {
                     min.add(max.remove());
                 }  else if(min.size() > max.size()) {
                     max.add(min.remove());
                 }
-            }
-            if(e == 2) {
-                max.remove();
-                if(min.size() > max.size()) {
-                    max.add(min.remove());
-                }
-            }
             if(e == 3) {
-                System.out.println(max.peek());
+                System.out.println(max.isEmpty() ? 0: max.peek());
             }
         }
     }
